@@ -15,6 +15,7 @@ import type {
   VNode,
   VNodeChild,
 } from 'vue'
+import { attachedRoot } from './dom'
 
 export function getNestedValue (obj: any, path: (string | number)[], fallback?: any): any {
   const last = path.length - 1
@@ -663,7 +664,8 @@ export function focusChild (el: Element, location?: 'next' | 'prev' | 'first' | 
   const focusable = focusableChildren(el)
 
   if (!location) {
-    if (el === document.activeElement || !el.contains(document.activeElement)) {
+    const rootNode = attachedRoot(el) ?? document
+    if (el === rootNode.activeElement || !el.contains(rootNode.activeElement)) {
       focusable[0]?.focus()
     }
   } else if (location === 'first') {
