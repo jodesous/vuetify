@@ -102,7 +102,7 @@ export const ClickOutside = {
     }
   },
 
-  unmounted (el: HTMLElement, binding: ClickOutsideDirectiveBinding) {
+  beforeUnmount (el: HTMLElement, binding: ClickOutsideDirectiveBinding) {
     if (!el._clickOutside) return
 
     handleShadow(el, (app: HTMLElement) => {
@@ -113,6 +113,10 @@ export const ClickOutside = {
       app.removeEventListener('click', onClick, true)
       app.removeEventListener('mousedown', onMousedown, true)
     })
+  },
+
+  unmounted (el: HTMLElement, binding: ClickOutsideDirectiveBinding) {
+    if (!el._clickOutside) return
 
     delete el._clickOutside[binding.instance!.$.uid]
   },
